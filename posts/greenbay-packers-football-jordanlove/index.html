@@ -384,332 +384,307 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggalt)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>love_career <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/JordanLove_career.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>quarterbacks <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/nfl_qb_passing_19752025.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 3833 Columns: 36
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (6): Player, Team, Pos, QBrec, Awards, Player-additional
+dbl (30): Rk, Age, G, GS, Cmp, Att, Cmp%, PassingYds, TD, TD%, Int, Int%, Ln...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(quarterbacks)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 36
+     Rk Player   Age Team  Pos       G    GS QBrec   Cmp   Att `Cmp%` PassingYds
+  &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+1     1 Ken A…    26 CIN   QB       13    13 10-3…   228   377   60.5       3169
+2     2 Fran …    35 MIN   QB       14    14 12-2…   273   425   64.2       2994
+3     3 Roger…    33 DAL   QB       13    13 9-4-0   198   348   56.9       2666
+4     4 Jim H…    31 STL   QB       14    14 11-3…   182   345   52.8       2507
+5     5 Bert …    24 BAL   QB       14    14 10-4…   203   344   59         2483
+6     6 Billy…    36 WAS   QB       12    12 8-4-0   178   346   51.4       2440
+# ℹ 24 more variables: TD &lt;dbl&gt;, `TD%` &lt;dbl&gt;, Int &lt;dbl&gt;, `Int%` &lt;dbl&gt;,
+#   Lng &lt;dbl&gt;, `Y/A` &lt;dbl&gt;, `AY/A` &lt;dbl&gt;, `Y/C` &lt;dbl&gt;, `Y/G` &lt;dbl&gt;, Rate &lt;dbl&gt;,
+#   Sk &lt;dbl&gt;, SackYds &lt;dbl&gt;, `Sk%` &lt;dbl&gt;, `NY/A` &lt;dbl&gt;, `ANY/A` &lt;dbl&gt;,
+#   `4QC` &lt;dbl&gt;, GWD &lt;dbl&gt;, Awards &lt;chr&gt;, Season &lt;dbl&gt;, `1D` &lt;dbl&gt;,
+#   `Succ%` &lt;dbl&gt;, Yds &lt;dbl&gt;, QBR &lt;dbl&gt;, `Player-additional` &lt;chr&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>love_career <span class="ot">&lt;-</span> quarterbacks <span class="sc">|&gt;</span> <span class="fu">filter</span>(Player <span class="sc">==</span> <span class="st">"Jordan Love"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rodgers_career <span class="ot">&lt;-</span> quarterbacks <span class="sc">|&gt;</span> <span class="fu">filter</span>(Player <span class="sc">==</span> <span class="st">"Aaron Rodgers"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>favre_career <span class="ot">&lt;-</span> quarterbacks <span class="sc">|&gt;</span> <span class="fu">filter</span>(Player <span class="sc">==</span> <span class="st">"Brett Favre"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(love_career)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 36
+     Rk Player   Age Team  Pos       G    GS QBrec   Cmp   Att `Cmp%` PassingYds
+  &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+1    51 Jorda…    23 GNB   QB        6     1 0-1-0    36    62   58.1        411
+2    63 Jorda…    24 GNB   QB        4     0 &lt;NA&gt;     14    21   66.7        195
+3     7 Jorda…    25 GNB   QB       17    17 9-8-0   372   579   64.2       4159
+4    19 Jorda…    26 GNB   QB       15    15 9-6-0   268   425   63.1       3389
+5    13 Jorda…    27 GNB   QB       15    15 9-5-1   291   439   66.3       3381
+# ℹ 24 more variables: TD &lt;dbl&gt;, `TD%` &lt;dbl&gt;, Int &lt;dbl&gt;, `Int%` &lt;dbl&gt;,
+#   Lng &lt;dbl&gt;, `Y/A` &lt;dbl&gt;, `AY/A` &lt;dbl&gt;, `Y/C` &lt;dbl&gt;, `Y/G` &lt;dbl&gt;, Rate &lt;dbl&gt;,
+#   Sk &lt;dbl&gt;, SackYds &lt;dbl&gt;, `Sk%` &lt;dbl&gt;, `NY/A` &lt;dbl&gt;, `ANY/A` &lt;dbl&gt;,
+#   `4QC` &lt;dbl&gt;, GWD &lt;dbl&gt;, Awards &lt;chr&gt;, Season &lt;dbl&gt;, `1D` &lt;dbl&gt;,
+#   `Succ%` &lt;dbl&gt;, Yds &lt;dbl&gt;, QBR &lt;dbl&gt;, `Player-additional` &lt;chr&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>gb <span class="ot">&lt;-</span> quarterbacks <span class="sc">|&gt;</span> <span class="fu">filter</span>(Team <span class="sc">==</span> <span class="st">"GNB"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>love_career, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">weight=</span>PassingYds)) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Season - Jordan Love"</span>, </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Total Passing Yards"</span>, </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Jordan Love proved to be explosive early on"</span>, </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Love is sitting pretty similarly to previous Green Bay starting quarterbacks at this point in his career"</span>, </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Sports Data Archive | Shelby Samek"</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>), </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>), </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>rodgers_career, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">weight=</span>PassingYds)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Season - Aaron Rodgers"</span>, </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Total Passing Yards"</span>, </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Sports Data Archive | Shelby Samek"</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>), </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>favre_career, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">weight=</span>PassingYds)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Season - Brett Favre"</span>, </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Total Passing Yards"</span>, </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Sports Data Archive | Shelby Samek"</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>), </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Love had his best season in 2023 throwing over 4,000 yards. The ranking is pretty similar to where Rodgers was in his first year as starting quarterback with Favre sitting a little lower above the 3,000 yard line. Where were Favre and Rodgers when they were in the same spot as Love? Where are they now? Is Love exceeding in some areas, falling back in others, on the right track? Etc.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>gb, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span><span class="st">`</span><span class="at">Cmp%</span><span class="st">`</span>), <span class="at">color=</span><span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>love_career, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span><span class="st">`</span><span class="at">Cmp%</span><span class="st">`</span>), <span class="at">color=</span><span class="st">"darkgreen"</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>rodgers_career, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span><span class="st">`</span><span class="at">Cmp%</span><span class="st">`</span>), <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>favre_career, <span class="fu">aes</span>(<span class="at">x=</span>Season, <span class="at">y=</span><span class="st">`</span><span class="at">Cmp%</span><span class="st">`</span>), <span class="at">color=</span><span class="st">"purple"</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Season"</span>, </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Career Completion Percentage"</span>, </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Jordan Love is up there with the greats"</span>, </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Favre and Rodgers paved the way with Love in that same area even in his first few seasons"</span>, </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Sports Data Archive | Shelby Samek"</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>), </span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>), </span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Love, Rodgers and Favre have impressive football resumes early on in their careers. The only thing missing is Love’s ring. Love is in his seventh season in the NFL and fourth season as Green Bay’s starting quarterback. Favre took the Packers to Super Bowl XXXI in 1996 during his fifth season in the NFL, fourth season as Green Bay’s starting quarterback, followed by Super Bowl XXXII in 1997. Rodgers took the Packers to Super Bowl XLV in 2010 during his sixth season in the NFL, third season as Green Bay’s starting quarterback, going on to win Super Bowl MVP. Playoffs are how teams get to the Super Bowl. It is crunch time. The packers have a recent history of choking early on. What can Jordan Love do to get out of that slump?</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>love_playoffs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/love_playoffs.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
-Rows: 67 Columns: 37
+Rows: 4 Columns: 37
 ── Column specification
 ──────────────────────────────────────────────────────── Delimiter: "," chr
-(37): ...1, ...2, ...3, ...4, ...5, ...6, ...7, ...8, ...9, ...10, Passi...
+(6): Date, Team, ...7, Opp, Result, GS dbl (31): Rk, Gcar, Gtm, Week, Cmp,
+Att...12, Cmp%, PassingYds, TD...15, Int...
 ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
 Specify the column types or set `show_col_types = FALSE` to quiet this message.
-• `` -&gt; `...1`
-• `` -&gt; `...2`
-• `` -&gt; `...3`
-• `` -&gt; `...4`
-• `` -&gt; `...5`
-• `` -&gt; `...6`
 • `` -&gt; `...7`
-• `` -&gt; `...8`
-• `` -&gt; `...9`
-• `` -&gt; `...10`
-• `Passing` -&gt; `Passing...11`
-• `Passing` -&gt; `Passing...12`
-• `Passing` -&gt; `Passing...13`
-• `Passing` -&gt; `Passing...14`
-• `Passing` -&gt; `Passing...15`
-• `Passing` -&gt; `Passing...16`
-• `Passing` -&gt; `Passing...17`
-• `Passing` -&gt; `Passing...18`
-• `Passing` -&gt; `Passing...19`
-• `Passing` -&gt; `Passing...20`
-• `Passing` -&gt; `Passing...21`
-• `Rushing` -&gt; `Rushing...22`
-• `Rushing` -&gt; `Rushing...23`
-• `Rushing` -&gt; `Rushing...24`
-• `Rushing` -&gt; `Rushing...25`
-• `Fumbles` -&gt; `Fumbles...26`
-• `Fumbles` -&gt; `Fumbles...27`
-• `Fumbles` -&gt; `Fumbles...28`
-• `Fumbles` -&gt; `Fumbles...29`
-• `Fumbles` -&gt; `Fumbles...30`
-• `Fumbles` -&gt; `Fumbles...31`
-• `Snap Counts` -&gt; `Snap Counts...32`
-• `Snap Counts` -&gt; `Snap Counts...33`
-• `Snap Counts` -&gt; `Snap Counts...34`
-• `Snap Counts` -&gt; `Snap Counts...35`
-• `Snap Counts` -&gt; `Snap Counts...36`
-• `Snap Counts` -&gt; `Snap Counts...37`</code></pre>
+• `Att` -&gt; `Att...12`
+• `TD` -&gt; `TD...15`
+• `Y/A` -&gt; `Y/A...17`
+• `Yds` -&gt; `Yds...21`
+• `Att` -&gt; `Att...22`
+• `Yds` -&gt; `Yds...23`
+• `TD` -&gt; `TD...24`
+• `Y/A` -&gt; `Y/A...25`
+• `Yds` -&gt; `Yds...30`</code></pre>
 </div>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(love_career)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 37
-  ...1  ...2  ...3  ...4  ...5     ...6  ...7  ...8  ...9    ...10 Passing...11
-  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;       
-1 Rk    Gcar  Gtm   Week  Date     Team  &lt;NA&gt;  Opp   Result  GS    Cmp         
-2 1     1     1     1     9/12/21  GNB   @     NOR   L 3-38  &lt;NA&gt;  5           
-3 2     2     2     2     9/20/21  GNB   &lt;NA&gt;  DET   W 35-17 &lt;NA&gt;  0           
-4 3     3     9     9     11/7/21  GNB   @     KAN   L 7-13  *     19          
-5 4     4     11    11    11/21/21 GNB   @     MIN   L 31-34 &lt;NA&gt;  0           
-6 5     5     16    17    1/2/22   GNB   &lt;NA&gt;  MIN   W 37-10 &lt;NA&gt;  2           
-# ℹ 26 more variables: Passing...12 &lt;chr&gt;, Passing...13 &lt;chr&gt;,
-#   Passing...14 &lt;chr&gt;, Passing...15 &lt;chr&gt;, Passing...16 &lt;chr&gt;,
-#   Passing...17 &lt;chr&gt;, Passing...18 &lt;chr&gt;, Passing...19 &lt;chr&gt;,
-#   Passing...20 &lt;chr&gt;, Passing...21 &lt;chr&gt;, Rushing...22 &lt;chr&gt;,
-#   Rushing...23 &lt;chr&gt;, Rushing...24 &lt;chr&gt;, Rushing...25 &lt;chr&gt;,
-#   Fumbles...26 &lt;chr&gt;, Fumbles...27 &lt;chr&gt;, Fumbles...28 &lt;chr&gt;,
-#   Fumbles...29 &lt;chr&gt;, Fumbles...30 &lt;chr&gt;, Fumbles...31 &lt;chr&gt;, …</code></pre>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(love_career)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 67
-Columns: 37
-$ ...1               &lt;chr&gt; "Rk", "1", "2", "3", "4", "5", "6", "7", "8", "9", …
-$ ...2               &lt;chr&gt; "Gcar", "1", "2", "3", "4", "5", "6", "7", "8", "9"…
-$ ...3               &lt;chr&gt; "Gtm", "1", "2", "9", "11", "16", "17", "1", "6", "…
-$ ...4               &lt;chr&gt; "Week", "1", "2", "9", "11", "17", "18", "1", "6", …
-$ ...5               &lt;chr&gt; "Date", "9/12/21", "9/20/21", "11/7/21", "11/21/21"…
-$ ...6               &lt;chr&gt; "Team", "GNB", "GNB", "GNB", "GNB", "GNB", "GNB", "…
-$ ...7               &lt;chr&gt; NA, "@", NA, "@", "@", NA, "@", "@", NA, "@", NA, "…
-$ ...8               &lt;chr&gt; "Opp", "NOR", "DET", "KAN", "MIN", "MIN", "DET", "M…
-$ ...9               &lt;chr&gt; "Result", "L 3-38", "W 35-17", "L 7-13", "L 31-34",…
-$ ...10              &lt;chr&gt; "GS", NA, NA, "*", NA, NA, NA, NA, NA, NA, NA, "*",…
-$ Passing...11       &lt;chr&gt; "Cmp", "5", "0", "19", "0", "2", "10", "4", "2", "6…
-$ Passing...12       &lt;chr&gt; "Att", "7", "0", "34", "0", "4", "17", "5", "4", "9…
-$ Passing...13       &lt;chr&gt; "Cmp%", "71.4", NA, "55.9", NA, "50", "58.8", "80",…
-$ Passing...14       &lt;chr&gt; "Yds", "68", "0", "190", "0", "19", "134", "65", "8…
-$ Passing...15       &lt;chr&gt; "TD", "0", "0", "1", "0", "0", "1", "0", "0", "1", …
-$ Passing...16       &lt;chr&gt; "Int", "0", "0", "1", "0", "0", "2", "0", "0", "0",…
-$ Passing...17       &lt;chr&gt; "Y/A", "9.7", NA, "5.6", NA, "4.8", "7.9", "13", "2…
-$ Passing...18       &lt;chr&gt; "AY/A", "9.7", NA, "4.9", NA, "4.8", "3.8", "13", "…
-$ Passing...19       &lt;chr&gt; "Rate", "102.1", NA, "69.5", NA, "63.5", "64", "118…
-$ Passing...20       &lt;chr&gt; "Sk", "1", "0", "1", "0", "0", "1", "0", "0", "0", …
-$ Passing...21       &lt;chr&gt; "Yds", "4", "0", "11", "0", "0", "8", "0", "0", "0"…
-$ Rushing...22       &lt;chr&gt; "Att", "0", "3", "5", "1", "2", "1", "0", "0", "0",…
-$ Rushing...23       &lt;chr&gt; "Yds", "0", "-3", "23", "-1", "9", "-1", "0", "0", …
-$ Rushing...24       &lt;chr&gt; "TD", "0", "0", "0", "0", "0", "0", "0", "0", "0", …
-$ Rushing...25       &lt;chr&gt; "Y/A", NA, "-1", "4.6", "-1", "4.5", "-1", NA, NA, …
-$ Fumbles...26       &lt;chr&gt; "Fmb", "1", "0", "1", "0", "0", "1", "0", "0", "0",…
-$ Fumbles...27       &lt;chr&gt; "FL", "1", "0", "0", "0", "0", "0", "0", "0", "0", …
-$ Fumbles...28       &lt;chr&gt; "FF", "0", "0", "0", "0", "0", "0", "0", "0", "0", …
-$ Fumbles...29       &lt;chr&gt; "FR", "0", "0", "1", "0", "0", "1", "0", "0", "0", …
-$ Fumbles...30       &lt;chr&gt; "Yds", "0", "0", "0", "0", "0", "0", "0", "0", "0",…
-$ Fumbles...31       &lt;chr&gt; "FRTD", "0", "0", "0", "0", "0", "0", "0", "0", "0"…
-$ `Snap Counts...32` &lt;chr&gt; "OffSnp", "15", "3", "63", "1", "12", "37", "5", "4…
-$ `Snap Counts...33` &lt;chr&gt; "Off%", "26.3", "4.6", "100", "1.7", "16", "54.4", …
-$ `Snap Counts...34` &lt;chr&gt; "DefSnp", "0", "0", "0", "0", "0", "0", "0", "0", "…
-$ `Snap Counts...35` &lt;chr&gt; "Def%", "0", "0", "0", "0", "0", "0", "0", "0", "0"…
-$ `Snap Counts...36` &lt;chr&gt; "STSnp", "0", "0", "0", "0", "0", "0", "0", "0", "0…
-$ `Snap Counts...37` &lt;chr&gt; "ST%", "0", "0", "0", "0", "0", "0", "0", "0", "0",…</code></pre>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rodgers_career <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/AaronRodgers_career.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>rodgers_playoffs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/rodgers_playoffs.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
-Rows: 276 Columns: 51
+Rows: 28 Columns: 44
 ── Column specification
 ──────────────────────────────────────────────────────── Delimiter: "," chr
-(51): ...1, ...2, ...3, ...4, ...5, ...6, ...7, ...8, ...9, ...10, Passi...
+(6): Date, Team, ...7, Opp, Result, GS dbl (38): Rk, Gcar, Gtm, Week, Cmp,
+Att...12, Cmp%, PassingYds, TD...15, Int...
 ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
 Specify the column types or set `show_col_types = FALSE` to quiet this message.
-• `` -&gt; `...1`
-• `` -&gt; `...2`
-• `` -&gt; `...3`
-• `` -&gt; `...4`
-• `` -&gt; `...5`
-• `` -&gt; `...6`
 • `` -&gt; `...7`
-• `` -&gt; `...8`
-• `` -&gt; `...9`
-• `` -&gt; `...10`
-• `Passing` -&gt; `Passing...11`
-• `Passing` -&gt; `Passing...12`
-• `Passing` -&gt; `Passing...13`
-• `Passing` -&gt; `Passing...14`
-• `Passing` -&gt; `Passing...15`
-• `Passing` -&gt; `Passing...16`
-• `Passing` -&gt; `Passing...17`
-• `Passing` -&gt; `Passing...18`
-• `Passing` -&gt; `Passing...19`
-• `Passing` -&gt; `Passing...20`
-• `Passing` -&gt; `Passing...21`
-• `Rushing` -&gt; `Rushing...22`
-• `Rushing` -&gt; `Rushing...23`
-• `Rushing` -&gt; `Rushing...24`
-• `Rushing` -&gt; `Rushing...25`
-• `Receiving` -&gt; `Receiving...26`
-• `Receiving` -&gt; `Receiving...27`
-• `Receiving` -&gt; `Receiving...28`
-• `Receiving` -&gt; `Receiving...29`
-• `Receiving` -&gt; `Receiving...30`
-• `Receiving` -&gt; `Receiving...31`
-• `Receiving` -&gt; `Receiving...32`
-• `` -&gt; `...33`
-• `Tackles` -&gt; `Tackles...34`
-• `Tackles` -&gt; `Tackles...35`
-• `Tackles` -&gt; `Tackles...36`
-• `Tackles` -&gt; `Tackles...37`
-• `Tackles` -&gt; `Tackles...38`
-• `` -&gt; `...39`
-• `Fumbles` -&gt; `Fumbles...40`
-• `Fumbles` -&gt; `Fumbles...41`
-• `Fumbles` -&gt; `Fumbles...42`
-• `Fumbles` -&gt; `Fumbles...43`
-• `Fumbles` -&gt; `Fumbles...44`
-• `Fumbles` -&gt; `Fumbles...45`
-• `Snap Counts` -&gt; `Snap Counts...46`
-• `Snap Counts` -&gt; `Snap Counts...47`
-• `Snap Counts` -&gt; `Snap Counts...48`
-• `Snap Counts` -&gt; `Snap Counts...49`
-• `Snap Counts` -&gt; `Snap Counts...50`
-• `Snap Counts` -&gt; `Snap Counts...51`</code></pre>
+• `Att` -&gt; `Att...12`
+• `TD` -&gt; `TD...15`
+• `Y/A` -&gt; `Y/A...17`
+• `Sk` -&gt; `Sk...20`
+• `Yds` -&gt; `Yds...21`
+• `Att` -&gt; `Att...22`
+• `Yds` -&gt; `Yds...23`
+• `TD` -&gt; `TD...24`
+• `Y/A` -&gt; `Y/A...25`
+• `Sk` -&gt; `Sk...26`
+• `Yds` -&gt; `Yds...37`</code></pre>
 </div>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rodgers_career)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 51
-  ...1  ...2  ...3  ...4  ...5     ...6  ...7  ...8  ...9    ...10 Passing...11
-  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;       
-1 Rk    Gcar  Gtm   Week  Date     Team  &lt;NA&gt;  Opp   Result  GS    Cmp         
-2 1     1     5     5     10/9/05  GNB   &lt;NA&gt;  NOR   W 52-3  &lt;NA&gt;  1           
-3 2     2     14    15    12/19/05 GNB   @     BAL   L 3-48  &lt;NA&gt;  8           
-4 3     3     16    17    1/1/06   GNB   &lt;NA&gt;  SEA   W 23-17 &lt;NA&gt;  0           
-5 4     4     4     4     10/2/06  GNB   @     PHI   L 9-31  &lt;NA&gt;  2           
-6 5     5     10    11    11/19/06 GNB   &lt;NA&gt;  NWE   L 0-35  &lt;NA&gt;  4           
-# ℹ 40 more variables: Passing...12 &lt;chr&gt;, Passing...13 &lt;chr&gt;,
-#   Passing...14 &lt;chr&gt;, Passing...15 &lt;chr&gt;, Passing...16 &lt;chr&gt;,
-#   Passing...17 &lt;chr&gt;, Passing...18 &lt;chr&gt;, Passing...19 &lt;chr&gt;,
-#   Passing...20 &lt;chr&gt;, Passing...21 &lt;chr&gt;, Rushing...22 &lt;chr&gt;,
-#   Rushing...23 &lt;chr&gt;, Rushing...24 &lt;chr&gt;, Rushing...25 &lt;chr&gt;,
-#   Receiving...26 &lt;chr&gt;, Receiving...27 &lt;chr&gt;, Receiving...28 &lt;chr&gt;,
-#   Receiving...29 &lt;chr&gt;, Receiving...30 &lt;chr&gt;, Receiving...31 &lt;chr&gt;, …</code></pre>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(rodgers_career)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 276
-Columns: 51
-$ ...1               &lt;chr&gt; "Rk", "1", "2", "3", "4", "5", "6", "7", "8", "9", …
-$ ...2               &lt;chr&gt; "Gcar", "1", "2", "3", "4", "5", "6", "7", "8", "9"…
-$ ...3               &lt;chr&gt; "Gtm", "5", "14", "16", "4", "10", "9", "12", "1", …
-$ ...4               &lt;chr&gt; "Week", "5", "15", "17", "4", "11", "10", "13", "1"…
-$ ...5               &lt;chr&gt; "Date", "10/9/05", "12/19/05", "1/1/06", "10/2/06",…
-$ ...6               &lt;chr&gt; "Team", "GNB", "GNB", "GNB", "GNB", "GNB", "GNB", "…
-$ ...7               &lt;chr&gt; NA, NA, "@", NA, "@", NA, NA, "@", NA, "@", NA, "@"…
-$ ...8               &lt;chr&gt; "Opp", "NOR", "BAL", "SEA", "PHI", "NWE", "MIN", "D…
-$ ...9               &lt;chr&gt; "Result", "W 52-3", "L 3-48", "W 23-17", "L 9-31", …
-$ ...10              &lt;chr&gt; "GS", NA, NA, NA, NA, NA, NA, NA, "*", "*", "*", "*…
-$ Passing...11       &lt;chr&gt; "Cmp", "1", "8", "0", "2", "4", "2", "18", "18", "2…
-$ Passing...12       &lt;chr&gt; "Att", "1", "15", "0", "3", "12", "2", "26", "22", …
-$ Passing...13       &lt;chr&gt; "Cmp%", "100", "53.3", NA, "66.7", "33.3", "100", "…
-$ Passing...14       &lt;chr&gt; "Yds", "0", "65", "0", "14", "32", "17", "201", "17…
-$ Passing...15       &lt;chr&gt; "TD", "0", "0", "0", "0", "0", "0", "1", "1", "3", …
-$ Passing...16       &lt;chr&gt; "Int", "0", "1", "0", "0", "0", "0", "0", "0", "0",…
-$ Passing...17       &lt;chr&gt; "Y/A", "0", "4.3", NA, "4.7", "2.7", "8.5", "7.7", …
-$ Passing...18       &lt;chr&gt; "AY/A", "0", "1.3", NA, "4.7", "2.7", "8.5", "8.5",…
-$ Passing...19       &lt;chr&gt; "Rate", "79.2", "36.8", NA, "77.1", "42.4", "102.1"…
-$ Passing...20       &lt;chr&gt; "Sk", "0", "3", "0", "0", "3", "0", "3", "0", "1", …
-$ Passing...21       &lt;chr&gt; "Yds", "0", "28", NA, "0", "18", "0", "24", "0", "4…
-$ Rushing...22       &lt;chr&gt; "Att", "0", "1", "1", "0", "2", "2", "5", "8", "4",…
-$ Rushing...23       &lt;chr&gt; "Yds", "0", "8", "-1", "0", "11", "-1", "30", "35",…
-$ Rushing...24       &lt;chr&gt; "TD", "0", "0", "0", "0", "0", "0", "0", "1", "0", …
-$ Rushing...25       &lt;chr&gt; "Y/A", NA, "8", "-1", NA, "5.5", "-0.5", "6", "4.4"…
-$ Receiving...26     &lt;chr&gt; "Tgt", "0", "0", "0", "0", "0", "0", "0", "0", "0",…
-$ Receiving...27     &lt;chr&gt; "Rec", "0", "0", "0", "0", "0", "0", "0", "0", "0",…
-$ Receiving...28     &lt;chr&gt; "Yds", "0", "0", "0", "0", "0", "0", "0", "0", "0",…
-$ Receiving...29     &lt;chr&gt; "Y/R", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-$ Receiving...30     &lt;chr&gt; "TD", "0", "0", "0", "0", "0", "0", "0", "0", "0", …
-$ Receiving...31     &lt;chr&gt; "Ctch%", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-$ Receiving...32     &lt;chr&gt; "Y/Tgt", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-$ ...33              &lt;chr&gt; "Sk", "0", "0", "0", "0", "0", "0", "0", "0", "0", …
-$ Tackles...34       &lt;chr&gt; "Comb", "0", "0", "0", "0", "0", "0", "0", "0", "0"…
-$ Tackles...35       &lt;chr&gt; "Solo", "0", "0", "0", "0", "0", "0", "0", "0", "0"…
-$ Tackles...36       &lt;chr&gt; "Ast", "0", "0", "0", "0", "0", "0", "0", "0", "0",…
-$ Tackles...37       &lt;chr&gt; "TFL", "0", "0", "0", "0", "0", "0", "0", "0", "0",…
-$ Tackles...38       &lt;chr&gt; "QBHits", NA, NA, NA, NA, NA, NA, NA, "0", "0", "0"…
-$ ...39              &lt;chr&gt; "Sfty", "0", "0", "0", "0", "0", "0", "0", "0", "0"…
-$ Fumbles...40       &lt;chr&gt; "Fmb", "0", "2", "0", "0", "1", "0", "0", "1", "2",…
-$ Fumbles...41       &lt;chr&gt; "FL", "0", "2", "0", "0", "1", "0", "0", "0", "1", …
-$ Fumbles...42       &lt;chr&gt; "FF", "0", "0", "0", "0", "0", "0", "0", "0", "0", …
-$ Fumbles...43       &lt;chr&gt; "FR", "0", "0", "0", "0", "0", "0", "0", "1", "1", …
-$ Fumbles...44       &lt;chr&gt; "Yds", "0", "0", "0", "0", "0", "0", "0", "-3", "-2…
-$ Fumbles...45       &lt;chr&gt; "FRTD", "0", "0", "0", "0", "0", "0", "0", "0", "0"…
-$ `Snap Counts...46` &lt;chr&gt; "OffSnp", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ `Snap Counts...47` &lt;chr&gt; "Off%", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-$ `Snap Counts...48` &lt;chr&gt; "DefSnp", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ `Snap Counts...49` &lt;chr&gt; "Def%", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-$ `Snap Counts...50` &lt;chr&gt; "STSnp", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-$ `Snap Counts...51` &lt;chr&gt; "ST%", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</code></pre>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>favre_career <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/BrettFavre_career.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a> favre_playoffs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/favre_playoffs.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
-Rows: 307 Columns: 38
+Rows: 24 Columns: 31
 ── Column specification
 ──────────────────────────────────────────────────────── Delimiter: "," chr
-(38): ...1, ...2, ...3, ...4, ...5, ...6, ...7, ...8, ...9, ...10, Passi...
+(6): Date, Team, ...7, Opp, Result, GS dbl (25): Rk, Gcar, Gtm, Week, Cmp,
+Att...12, Cmp%, PassingYds, TD...15, Int...
 ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
 Specify the column types or set `show_col_types = FALSE` to quiet this message.
-• `` -&gt; `...1`
-• `` -&gt; `...2`
-• `` -&gt; `...3`
-• `` -&gt; `...4`
-• `` -&gt; `...5`
-• `` -&gt; `...6`
 • `` -&gt; `...7`
-• `` -&gt; `...8`
-• `` -&gt; `...9`
-• `` -&gt; `...10`
-• `Passing` -&gt; `Passing...11`
-• `Passing` -&gt; `Passing...12`
-• `Passing` -&gt; `Passing...13`
-• `Passing` -&gt; `Passing...14`
-• `Passing` -&gt; `Passing...15`
-• `Passing` -&gt; `Passing...16`
-• `Passing` -&gt; `Passing...17`
-• `Passing` -&gt; `Passing...18`
-• `Passing` -&gt; `Passing...19`
-• `Passing` -&gt; `Passing...20`
-• `Passing` -&gt; `Passing...21`
-• `Rushing` -&gt; `Rushing...22`
-• `Rushing` -&gt; `Rushing...23`
-• `Rushing` -&gt; `Rushing...24`
-• `Rushing` -&gt; `Rushing...25`
-• `Receiving` -&gt; `Receiving...26`
-• `Receiving` -&gt; `Receiving...27`
-• `Receiving` -&gt; `Receiving...28`
-• `Receiving` -&gt; `Receiving...29`
-• `Receiving` -&gt; `Receiving...30`
-• `Receiving` -&gt; `Receiving...31`
-• `Receiving` -&gt; `Receiving...32`
-• `Fumbles` -&gt; `Fumbles...33`
-• `Fumbles` -&gt; `Fumbles...34`
-• `Fumbles` -&gt; `Fumbles...35`
-• `Fumbles` -&gt; `Fumbles...36`
-• `Fumbles` -&gt; `Fumbles...37`
-• `Fumbles` -&gt; `Fumbles...38`</code></pre>
+• `Att` -&gt; `Att...12`
+• `TD` -&gt; `TD...15`
+• `Y/A` -&gt; `Y/A...17`
+• `Yds` -&gt; `Yds...21`
+• `Att` -&gt; `Att...22`
+• `Yds` -&gt; `Yds...23`
+• `TD` -&gt; `TD...24`
+• `Y/A` -&gt; `Y/A...25`
+• `Yds` -&gt; `Yds...30`</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(love_playoffs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 37
+     Rk  Gcar   Gtm  Week Date    Team  ...7  Opp   Result  GS      Cmp Att...12
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1     1     1     1    19 1/14/24 GNB   @     DAL   W 48-32 *        16       21
+2     2     2     2    20 1/20/24 GNB   @     SFO   L 21-24 *        21       34
+3     3     3     1    19 1/12/25 GNB   @     PHI   L 10-22 *        20       33
+4     4     4     1    19 1/10/26 GNB   @     CHI   L 27-31 *        24       46
+# ℹ 25 more variables: `Cmp%` &lt;dbl&gt;, PassingYds &lt;dbl&gt;, TD...15 &lt;dbl&gt;,
+#   Int &lt;dbl&gt;, `Y/A...17` &lt;dbl&gt;, `AY/A` &lt;dbl&gt;, Rate &lt;dbl&gt;, Sk &lt;dbl&gt;,
+#   Yds...21 &lt;dbl&gt;, Att...22 &lt;dbl&gt;, Yds...23 &lt;dbl&gt;, TD...24 &lt;dbl&gt;,
+#   `Y/A...25` &lt;dbl&gt;, Fmb &lt;dbl&gt;, FL &lt;dbl&gt;, FF &lt;dbl&gt;, FR &lt;dbl&gt;, Yds...30 &lt;dbl&gt;,
+#   FRTD &lt;dbl&gt;, OffSnp &lt;dbl&gt;, `Off%` &lt;dbl&gt;, DefSnp &lt;dbl&gt;, `Def%` &lt;dbl&gt;,
+#   STSnp &lt;dbl&gt;, `ST%` &lt;dbl&gt;</code></pre>
 </div>
 </div>
 
